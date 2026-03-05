@@ -23,3 +23,58 @@ var = np.var(X_train_flat,0)
 mu = mu.reshape(28,28)
 plt.imshow(mu, cmap="gray")
 plt.show()
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+batch_size = 128
+num_epochs = 20
+learning_rate = 1e-3
+
+transform = transforms.ToTensor()
+
+train_dataset = datasets.FashionMNIST(
+    root="./data",
+    train=True,
+    transform=transform,
+    download=True
+)
+
+train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+
+model = VAE().to(device)
+optimizer = optim.Adam(model.parameters(), lr=learning_rate)
+
+
+def vae_loss(recon_x, x, mu, logvar):
+    recon_loss = torch.nn.functional.binary_cross_entropy(
+        recon_x,
+        x,
+        reduction="sum"
+    )
+
+    kl_loss = -0.5 * torch.sum(
+        1 + logvar - mu.pow(2) - logvar.exp()
+    )
+
+    return recon_loss + kl_loss
+
+
+for epoch in range(num_epochs):
+
+    epoch_loss = 0
+
+    for images, _ in train_loader:
+        images = images.view(-1, 784).to(device)
+
+        optimizer.zero_grad()
+        recon_images, mu, logvar = model(images)
+        loss = vae_loss(recon_images, images, mu, logvar)
+
+        loss.backward()
+        optimizer.step()
+
+        epoch_loss += loss.item()
+
+    print("Epoch:", epoch + 1, "Loss:", epoch_loss)
+
+torch.save(model.state_dict(), "vae_fashion.pth")
