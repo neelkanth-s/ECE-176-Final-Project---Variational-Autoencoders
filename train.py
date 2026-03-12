@@ -68,9 +68,6 @@ for epoch in range(num_epochs):
         else:
             images = images.view(-1, 784).to(device)
         y = torch.nn.functional.one_hot(labels, num_classes=10).float().to(device)
-
-
-
         if use == "1":
             optimizer1.zero_grad()
             recon_images, mu, logvar = model1(images,y)
