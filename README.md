@@ -1,51 +1,61 @@
-# Variational Autoencoder Reimplementation (Fashion-MNIST)
+# Variational Autoencoder Reimplementation
 
-This project contains a **from-scratch implementation of a Variational Autoencoder (VAE)** using PyTorch.
-The model learns a latent representation of the Fashion-MNIST dataset and can generate new clothing images by sampling from the learned latent space.
+This project is an implementation of a Variational Autoencoder (VAE).
+The model is trained to learn a latent representation of image data and generate new samples by decoding points from the latent space.
 
-### File Descriptions
+The implementation follows the core ideas of Variational Autoencoders, including:
 
-**model.py**
-
-Defines the Variational Autoencoder architecture.
-Includes:
-
-* Encoder network
-* Latent mean and variance layers
-* Reparameterization sampling step
-* Decoder network
-* Forward pass of the model
+* Encoder network producing latent mean and variance
+* Reparameterization trick for sampling
+* Decoder network for reconstruction
+* ELBO loss combining reconstruction and KL divergence
 
 ---
 
-**dataset.py**
+### model.py
 
-Handles loading the Fashion-MNIST dataset and creating a PyTorch `DataLoader` used during training.
+Defines the neural network architectures used in the project.
+This file includes implementations of:
+
+* A **linear Conditional Variational Autoencoder (CVAE)**
+* A **convolutional Variational Autoencoder**
+
+Both models include encoder, latent sampling, and decoder components.
 
 ---
 
-**train.py**
+### train.py
 
-Runs the training process for the VAE.
+Handles the full training process for the VAE models.
 Responsibilities include:
 
+* Loading the dataset
 * Initializing the model
-* Computing the ELBO loss (reconstruction + KL divergence)
-* Performing gradient updates using Adam optimizer
-* Saving the trained model weights
+* Computing the VAE loss (reconstruction + KL divergence)
+* Performing optimization steps
+* Saving trained model weights
 
 ---
 
-**generate.py**
+### sample.py
 
-Loads the trained model and generates new images by sampling from the latent space.
-The generated images are displayed using matplotlib.
+Generates images using a trained model.
+The script samples latent vectors from a Gaussian distribution and passes them through the decoder to create new images.
+
+The generated images are displayed in a **6×6 grid**.
 
 ---
 
-# Installation
+### requirements.txt
 
-Install dependencies:
+Lists the Python dependencies required to run the project, such as:
+
+* PyTorch
+* Torchvision
+* Matplotlib
+* NumPy
+
+These packages can be installed with:
 
 ```
 pip install -r requirements.txt
@@ -53,10 +63,16 @@ pip install -r requirements.txt
 
 ---
 
-# Training the Model
+# Running the Project
 
-Run the training script:
+Train the model:
 
 ```
 python train.py
+```
+
+Generate new samples:
+
+```
+python sample.py
 ```
