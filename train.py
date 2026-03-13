@@ -10,7 +10,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Training hyperparameters
 batch_size = 128
-num_epochs = 20
+num_epochs = 30
 learning_rate = 2e-3
 
 transform = transforms.ToTensor()

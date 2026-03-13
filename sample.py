@@ -17,19 +17,19 @@ if use == "1":
     with torch.no_grad():
 
         # Sample latent variables (sampling 25 vectors from the dataset)
-        z = torch.randn(25, 40).to(device)
-        y = torch.zeros(25, 10).to(device)
-        y[:, 5] = 1
+        z = torch.randn(36, 40).to(device)
+        y = torch.zeros(36, 10).to(device)
+        y[:, 8] = 1
         # Decode latent variables into images
         generated = model.decoder(z,y)
         generated = generated.view(-1, 28, 28)
 
-    fig, axes = plt.subplots(5, 5)
+    fig, axes = plt.subplots(6, 6)
 
-    for i in range(25):
+    for i in range(36):
 
-        row = i // 5
-        col = i % 5
+        row = i // 6
+        col = i % 6
 
         axes[row, col].imshow(generated[i].cpu(), cmap="gray")
         axes[row, col].axis("off")
@@ -44,16 +44,16 @@ if use == "2":
     with torch.no_grad():
 
         # Sample latent variables (sampling 25 vectors from the dataset)
-        z = torch.randn(25, 40).to(device)
+        z = torch.randn(36, 40).to(device)
         # Decode latent variables into images
         generated = model.decoder(z)
         generated = generated.view(-1, 28, 28)
 
-    fig, axes = plt.subplots(5, 5)
+    fig, axes = plt.subplots(6, 6)
 
-    for i in range(25):
-        row = i // 5
-        col = i % 5
+    for i in range(36):
+        row = i // 6
+        col = i % 6
 
         axes[row, col].imshow(generated[i].cpu(), cmap="gray")
         axes[row, col].axis("off")
@@ -68,16 +68,16 @@ if use == "3":
     with torch.no_grad():
 
         # Sample latent variables (sampling 25 vectors from the dataset)
-        z = torch.randn(25, 40).to(device)
+        z = torch.randn(36, 40).to(device)
         # Decode latent variables into images
         generated = model.decoder(z)
         generated = generated.view(-1, 28, 28)
 
-    fig, axes = plt.subplots(5, 5)
+    fig, axes = plt.subplots(6, 6)
 
-    for i in range(25):
-        row = i // 5
-        col = i % 5
+    for i in range(36):
+        row = i // 6
+        col = i % 6
 
         axes[row, col].imshow(generated[i].cpu(), cmap="gray")
         axes[row, col].axis("off")
